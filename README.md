@@ -1,7 +1,7 @@
 # 🚀 Project Name: Hackaton Team 2024  
 ### This is the end of my life
 
-🎉 We dont have a team name
+🎉 We don't have a team name
 👨‍💻 **Team Members**: Hudson, Jonathan, Porter, and Alan  
 ☕ **Status**: We can't do shit
 
@@ -43,7 +43,7 @@ Somehow it involves code. Possibly
 
 ## 📢 Shoutouts
 
-- To **Hudson** for nothing
+- To **Hudson** for food 🥈
 - To **Jonathan** organizing this
 - To **Porter** the goat naturally at everything
 - To **Alan** for being cute
