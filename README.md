@@ -12,9 +12,7 @@
 We honestly have no idea 
 This is actually gonna have no impact on my future
 
----
-
-## 🔧 How It Works (Or Does It? 🤷‍♂️)
+### 🔧 How It Works (Or Does It? 🤷‍♂️)
 
 Basically, this thing does *stuff* using *things*  
 Somehow it involves code. Possibly
@@ -23,11 +21,9 @@ Somehow it involves code. Possibly
 
 ## 🚨 Features (kinda)
 
-- **Does the thing you need** (maybe)
-  
----
+**Does the thing you need** (maybe)
 
-## 🧠 How we built it
+### 🧠 How we built it
 
 1. Panic 😱
 2. Copied code from StackOverflow 🔥
@@ -47,5 +43,11 @@ Somehow it involves code. Possibly
 - To **Jonathan** organizing this
 - To **Porter** the goat naturally at everything
 - To **Alan** for being cute
+
+---
+
+### 👅 Quotes
+
+- "imma wear my sonic underwear" - Porter
 
 ---
