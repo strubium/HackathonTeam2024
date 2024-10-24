@@ -1,4 +1,4 @@
-# 🚀 Project Name: Hackaton Team 2024  
+# 🚀 Hackaton Team 2024  
 ### This is the end of my life
 
 🎉 We don't have a team name
