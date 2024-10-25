@@ -1,0 +1,40 @@
+[
+  {
+    "type": "setup",
+    "values": [
+	  {
+        "engineVersion": "1.0.0"
+      },
+      {
+        "defaultWindowName": "RainEngine"
+      },
+	  {
+        "gameName": "An Example Game"
+      },
+	  {
+        "gameMakers": "dev guys"
+      },
+	  {
+        "gameVersion": "1.0.0"
+      },
+	  {
+        "gameWebsite": "exampledevguys.com"
+      },
+      {
+        "useIMGUI": "true"
+      },
+      {
+        "playerSize": "5"
+      },
+      {
+        "maxTexturesPerBatch": "100"
+      },
+      {
+        "minZoom": "3"
+      },
+      {
+        "maxZoom": "25"
+      }
+    ]
+  }
+]
