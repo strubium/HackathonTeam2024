@@ -38,4 +38,16 @@ public class LightSystem {
         return false;
     }
 
+    /**
+     * Removes the three oldest light sources from the list.
+     * @return the number of light sources removed
+     */
+    public static int removeOldestLights() {
+        int removeCount = Math.min(3, lightSources.size());
+        for (int i = 0; i < removeCount; i++) {
+            lightSources.remove(0);
+        }
+        return removeCount;
+    }
+
 }

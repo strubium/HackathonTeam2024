@@ -2,6 +2,7 @@ package com.toxicrain.artifacts;
 
 import com.toxicrain.core.GameEngine;
 import com.toxicrain.core.Logger;
+import com.toxicrain.light.LightSystem;
 import com.toxicrain.sound.SoundSystem;
 import com.toxicrain.texture.TextureInfo;
 import com.toxicrain.core.interfaces.IArtifact;
@@ -110,6 +111,9 @@ public class Player implements IArtifact {
             updatePos(cameraX, cameraY, cameraZ);
             Vector3f center = WindowUtils.getCenter();
 
+            // Manage the player's light dynamically
+            manageLight();
+
             // Calculate velocity based on deltaTime
             float velocityX = (cameraX - prevCameraX) / deltaTime;
             float velocityY = (cameraY - prevCameraY) / deltaTime;
@@ -119,6 +123,23 @@ public class Player implements IArtifact {
             prevCameraY = cameraY;
         }
     }
+
+    private void manageLight() {
+        if (shouldAddLight()) {
+            // Remove light when the player moves
+            LightSystem.removeOldestLights();
+        } else {
+            // Add light if the player is stationary
+            LightSystem.addLightSource(this.posX, this.posY, 4);
+        }
+    }
+
+    private boolean shouldAddLight() {
+        // Check if the camera position has changed
+        return cameraX != prevCameraX || cameraY != prevCameraY;
+    }
+
+
 
     private void getMouse() {
         float[] mousePos = GameFactory.mouseUtils.getMousePosition();
