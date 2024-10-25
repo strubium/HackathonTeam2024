@@ -9,7 +9,7 @@
         "defaultWindowName": "Echos Of Light"
       },
 	  {
-        "gameName": "An Example Game"
+        "gameName": "Echos Of Light"
       },
 	  {
         "gameMakers": "dev guys"
@@ -30,10 +30,10 @@
         "maxTexturesPerBatch": "100"
       },
       {
-        "minZoom": "7"
+        "minZoom": "15"
       },
       {
-        "maxZoom": "25"
+        "maxZoom": "35"
       }
     ]
   }
