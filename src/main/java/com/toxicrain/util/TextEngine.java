@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  */
 public class TextEngine {
     private static final float TEXT_SCALE = 1.2f; // Scale factor for text rendering
-    private Font font;
+    private final Font font;
     private final float transparency;
 
     // Cache for text and textures
