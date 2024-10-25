@@ -35,9 +35,7 @@ Somehow it involves code. Possibly
 - Make our own stuff
 - Nothing this is a template
 
----
-
-## 📢 Shoutouts
+### 📢 Shoutouts
 
 - To **Hudson** for food 🥈
 - To **Jonathan** organizing this
