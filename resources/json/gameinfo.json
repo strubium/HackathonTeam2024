@@ -6,7 +6,7 @@
         "engineVersion": "1.0.0"
       },
       {
-        "defaultWindowName": "RainEngine"
+        "defaultWindowName": "Echos Of Light"
       },
 	  {
         "gameName": "An Example Game"
@@ -21,7 +21,7 @@
         "gameWebsite": "exampledevguys.com"
       },
       {
-        "useIMGUI": "true"
+        "useIMGUI": "false"
       },
       {
         "playerSize": "5"
@@ -30,7 +30,7 @@
         "maxTexturesPerBatch": "100"
       },
       {
-        "minZoom": "3"
+        "minZoom": "7"
       },
       {
         "maxZoom": "25"

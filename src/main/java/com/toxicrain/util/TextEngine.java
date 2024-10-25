@@ -23,26 +23,37 @@ public class TextEngine {
 
     // Cache for text and textures
     private Map<String, TextureInfo> textureCache;
+    private Map<String, BufferedImage> imageCache;  // Cache for BufferedImages
 
     public TextEngine(Font font, float transparency) {
         this.font = font;
         this.transparency = transparency;
-        this.textureCache = new HashMap<>();  // Initialize the cache
+        this.textureCache = new HashMap<>();  // Initialize the texture cache
+        this.imageCache = new HashMap<>();     // Initialize the image cache
     }
 
     public void render(BatchRenderer batchRenderer, String toWrite, int xOffset, int yOffset) {
+        // Trim the text to avoid caching issues with leading/trailing spaces
+        String trimmedText = toWrite.trim();
 
-        // Check if the text is in the cache
-        TextureInfo textureInfo = textureCache.get(toWrite.trim());
+        // Check if the text is in the image cache
+        BufferedImage textImage = imageCache.get(trimmedText);
+        TextureInfo textureInfo;
+
+        if (textImage == null) {
+            // Create a new BufferedImage if not cached
+            textImage = createTextImage(trimmedText);
+            // Cache the created BufferedImage
+            imageCache.put(trimmedText, textImage);
+        }
+
+        // Check if the texture info is in the cache
+        textureInfo = textureCache.get(trimmedText);
         if (textureInfo == null) {
-            // Create a BufferedImage to render the new text
-            BufferedImage textImage = createTextImage(toWrite);
-
             // Convert the BufferedImage to a TextureInfo
             textureInfo = convertToTextureInfo(textImage);
-
             // Cache the texture for this text
-            textureCache.put(toWrite.trim(), textureInfo);
+            textureCache.put(trimmedText, textureInfo);
         }
 
         // Render the texture using BatchRenderer
@@ -103,41 +114,5 @@ public class TextEngine {
         g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, image.getHeight(), image.getWidth(), 0, null);
         g.dispose();
         return flipped;
-    }
-
-    public static float getTextWidth(String text) {
-        // Create a temporary image to measure text size
-        BufferedImage tempImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = tempImage.createGraphics();
-        g2d.setFont(font);  // Set the font for measuring
-
-        // Get FontMetrics after setting the font
-        FontMetrics metrics = g2d.getFontMetrics();
-
-        // Calculate the width of the text
-        float textWidth = metrics.stringWidth(text);
-
-        // Clean up
-        g2d.dispose();  // Dispose of graphics context to free resources
-
-        return textWidth;  // Return the width of the text in pixels
-    }
-
-    public static float getTextHeight(String text) {
-        // Create a temporary image to measure text size
-        BufferedImage tempImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = tempImage.createGraphics();
-        g2d.setFont(font);  // Set the font for measuring
-
-        // Get FontMetrics after setting the font
-        FontMetrics metrics = g2d.getFontMetrics();
-
-        // Calculate the height of the text
-        float textHeight = metrics.getHeight();
-
-        // Clean up
-        g2d.dispose();  // Dispose of graphics context to free resources
-
-        return textHeight;  // Return the height of the text in pixels
     }
 }
