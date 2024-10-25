@@ -221,8 +221,10 @@ public class GameEngine {
             GameFactory.character.render(batchRenderer);
             GameFactory.projectile.render(batchRenderer);
             GameFactory.player.render(batchRenderer);
-            textEngine.render(batchRenderer, "Stress: " + GameFactory.player.stressLevel, (int) (GameFactory.player.cameraX + 1),(int) (GameFactory.player.cameraY + 1));
+            if(GameFactory.player.stressLevel == 100f){
+                textEngine.render(batchRenderer, "You are stressed out. Take some time to calm down", (int) (GameFactory.player.cameraX + 1),(int) (GameFactory.player.cameraY + 1));
 
+            }
         }
 
 

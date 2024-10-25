@@ -112,6 +112,8 @@ public class Player implements IArtifact {
             cameraX += angleXS * 0.007f * direction;
             cameraY += angleYS * 0.007f * direction;
         }
+
+        increaseStress(0.01f);
     }
 
     public void update(float deltaTime) {
@@ -123,8 +125,14 @@ public class Player implements IArtifact {
             // Manage the player's light dynamically
             manageLight();
 
-            // Update stress level over time (can adjust based on game logic)
-            decreaseStress(0.5f * deltaTime); // Gradually decrease stress
+            if(stressLevel == 100){
+                stressLevel = 100;
+            }
+            else {
+                // Update stress level over time (can adjust based on game logic)
+                decreaseStress(0.00001f * deltaTime); // Gradually decrease stress
+            }
+
 
             // Adjust camera speed based on stress level
             currentCameraSpeed = baseCameraSpeed * (1 + (stressLevel / maxStressLevel));
