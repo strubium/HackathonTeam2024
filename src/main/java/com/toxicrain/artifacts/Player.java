@@ -40,10 +40,16 @@ public class Player implements IArtifact {
     private TextureInfo texture;
     private boolean isSprinting;
     public float cameraX, cameraY, cameraZ = 2; // Default camera Z
+    public static final float scrollSpeed = 0.2f;
     private float prevCameraX, prevCameraY;
     public float scrollOffset;
-    private float cameraSpeed = 0.02f; // Camera Speed
-    private final float scrollSpeed = 0.5f; // Max scroll speed
+
+    // New stress-related variables
+    public float stressLevel;
+    private final float maxStressLevel = 100.0f;
+    private float baseCameraSpeed = 0.02f; // Base camera speed
+    private float currentCameraSpeed; // Speed affected by stress
+
     private final List<Weapon> weapons;
     private Weapon equippedWeapon;
     private float[] openglMousePos;
@@ -57,6 +63,8 @@ public class Player implements IArtifact {
         this.weapons = new ArrayList<>();
         this.cameraX = MapInfoParser.playerx;
         this.cameraY = MapInfoParser.playery;
+        this.stressLevel = 0; // Initialize stress level
+        this.currentCameraSpeed = baseCameraSpeed; // Set initial speed
     }
 
     public void addWeapon(Weapon weapon) {
@@ -79,6 +87,7 @@ public class Player implements IArtifact {
     public void attack() {
         if (equippedWeapon != null) {
             equippedWeapon.attack();
+            increaseStress(10); // Increase stress when attacking
         } else {
             Logger.printLOG("No weapon equipped.");
         }
@@ -97,8 +106,8 @@ public class Player implements IArtifact {
         float angleYS = (float) Math.cos(angle);
 
         if (useMouse) {
-            cameraX += (openglMousePos[0] - posX) * 0.01f * direction;
-            cameraY += (openglMousePos[1] - posY) * 0.01f * direction;
+            cameraX += (openglMousePos[0] - posX) * 0.005f * direction;
+            cameraY += (openglMousePos[1] - posY) * 0.005f * direction;
         } else {
             cameraX += angleXS * 0.007f * direction;
             cameraY += angleYS * 0.007f * direction;
@@ -113,6 +122,12 @@ public class Player implements IArtifact {
 
             // Manage the player's light dynamically
             manageLight();
+
+            // Update stress level over time (can adjust based on game logic)
+            decreaseStress(0.5f * deltaTime); // Gradually decrease stress
+
+            // Adjust camera speed based on stress level
+            currentCameraSpeed = baseCameraSpeed * (1 + (stressLevel / maxStressLevel));
 
             // Calculate velocity based on deltaTime
             float velocityX = (cameraX - prevCameraX) / deltaTime;
@@ -138,8 +153,6 @@ public class Player implements IArtifact {
         // Check if the camera position has changed
         return cameraX != prevCameraX || cameraY != prevCameraY;
     }
-
-
 
     private void getMouse() {
         float[] mousePos = GameFactory.mouseUtils.getMousePosition();
@@ -262,10 +275,9 @@ public class Player implements IArtifact {
             }
         }
         if (collisionType == 1) {
-            cameraSpeed = 0.010f;
+            currentCameraSpeed = 0.010f; // Slow down when colliding
         }
     }
-
 
     private void processInput() {
         handleSprinting();
@@ -280,16 +292,21 @@ public class Player implements IArtifact {
 
     private void handleSprinting() {
         if (GameFactory.mouseUtils.isKeyPressed(KeyInfoParser.getKeyAsGLWFBind("keySprint"))) {
-            cameraSpeed = 0.1f;
-            isSprinting = true;
+            if (stressLevel < maxStressLevel) {
+                currentCameraSpeed = 0.1f; // Sprinting speed
+                isSprinting = true;
+                increaseStress(5); // Increase stress while sprinting
+            } else {
+                isSprinting = false; // Prevent sprinting if stressed
+            }
         } else {
             isSprinting = false;
-            cameraSpeed = 0.01f;
+            currentCameraSpeed = baseCameraSpeed; // Reset speed
         }
     }
 
     private void handleMovement() {
-        if(!GameEngine.menu){
+        if (!GameEngine.menu) {
             if (GameFactory.mouseUtils.isKeyPressed(KeyInfoParser.getKeyAsGLWFBind("keyWalkLeft"))) forward(false, 1);
             if (GameFactory.mouseUtils.isKeyPressed(KeyInfoParser.getKeyAsGLWFBind("keyWalkRight"))) forward(false, -1);
             if (GameFactory.mouseUtils.isKeyPressed(KeyInfoParser.getKeyAsGLWFBind("keyWalkForward"))) forward(true, 1);
@@ -312,4 +329,14 @@ public class Player implements IArtifact {
         this.posZ = z;
     }
 
+    // New methods to manage stress
+    private void increaseStress(float amount) {
+        stressLevel = MathUtils.clamp(stressLevel + amount, 0, (int) maxStressLevel);
+        Logger.printLOG("Stress Level: " + stressLevel);
+    }
+
+    private void decreaseStress(float amount) {
+        stressLevel = MathUtils.clamp(stressLevel - amount, 0, (int) maxStressLevel);
+        Logger.printLOG("Stress Level: " + stressLevel);
+    }
 }

@@ -12,6 +12,8 @@ import com.toxicrain.light.LightSystem;
 import com.toxicrain.sound.SoundSystem;
 import com.toxicrain.texture.TextureInfo;
 import com.toxicrain.texture.TextureSystem;
+import com.toxicrain.util.FileUtils;
+import com.toxicrain.util.TextEngine;
 import lombok.experimental.UtilityClass;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
@@ -19,6 +21,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Locale;
@@ -190,6 +193,16 @@ public class GameEngine {
     }
 
     private static void render(BatchRenderer batchRenderer) {
+        Font font = null;
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(FileUtils.getCurrentWorkingDirectory("resources/fonts") + "/Perfect DOS VGA 437.ttf")).deriveFont(24f);
+        } catch (FontFormatException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        TextEngine textEngine = new TextEngine(font, 50);
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -208,6 +221,8 @@ public class GameEngine {
             GameFactory.character.render(batchRenderer);
             GameFactory.projectile.render(batchRenderer);
             GameFactory.player.render(batchRenderer);
+            textEngine.render(batchRenderer, "Stress: " + GameFactory.player.stressLevel, (int) (GameFactory.player.cameraX + 1),(int) (GameFactory.player.cameraY + 1));
+
         }
 
 
